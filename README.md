@@ -5,6 +5,8 @@ A React Native app to track and share group problems.
 
 ### TODO:
 
+![mockup](./mockup.png)
+
 - [ ] List of all items
   - Button to add new item
 
