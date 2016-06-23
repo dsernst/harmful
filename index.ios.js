@@ -10,6 +10,7 @@ import {
   ListView,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View
 } from 'react-native';
 
@@ -17,25 +18,41 @@ class harmful extends Component {
 
   constructor(props) {
     super(props);
+    this._data = [
+      'Great Pacific Garbage Patch',
+      'Duopoly on Political Power',
+      'Rising Income Inequality',
+      'Women\'s Leadership Gap',
+      'Hard to Understand New Laws',
+      'Broken Healthcare System',
+    ]
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource: ds.cloneWithRows([
-        'Great Pacific Garbage Patch',
-        'Duopoly on Political Power',
-        'Rising Income Inequality',
-        'Women\'s Leadership Gap',
-        'Hard to Understand New Laws',
-        'Broken Healthcare System',
-      ]),
+      dataSource: ds.cloneWithRows(this._data),
     };
+  }
+
+  _onDataArrived(newData) {
+    this._data = [newData].concat(this._data)
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(this._data)
+    })
+  }
+
+  pressComposeButton() {
+    this._onDataArrived('foobar')
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>
-          HARMFUL
-        </Text>
+        <View style={styles.toolbar}>
+          <Text style={styles.toolbarButton}></Text>
+          <Text style={styles.title}>HARMFUL</Text>
+          <TouchableHighlight onPress={() => this.pressComposeButton()}>
+            <Text style={styles.toolbarButton}>+</Text>
+          </TouchableHighlight>
+        </View>
         <ListView style={styles.list}
           dataSource={this.state.dataSource}
           renderRow={function(rowData, sectionId, rowId) {
@@ -57,10 +74,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  header: {
-    fontFamily: 'Arial',
-    fontWeight: '900',
-    fontSize: 20,
+  toolbar: {
     marginTop: 20,
     paddingTop: 10,
     paddingBottom: 10,
@@ -68,6 +82,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'white',
     alignSelf: 'stretch',
+    flexDirection: 'row',
+  },
+  title: {
+    textAlign: 'center',
+    fontFamily: 'Arial',
+    fontWeight: '900',
+    fontSize: 20,
+    flex: 1,
+  },
+  toolbarButton: {
+    fontFamily: 'Helvetica',
+    fontWeight: '100',
+    fontSize: 30,
+    lineHeight: 20,
+    paddingTop: 5,
+    color: '#4A90E2',
+    width: 50,
     textAlign: 'center',
   },
   list: {
