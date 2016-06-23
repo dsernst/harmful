@@ -36,9 +36,9 @@ class harmful extends Component {
         <Text style={styles.header}>
           HARMFUL
         </Text>
-        <ListView
+        <ListView style={styles.list}
           dataSource={this.state.dataSource}
-          renderRow={(rowData) => <Text>{rowData}</Text>}
+          renderRow={(rowData) => <Text style={styles.row}>{rowData}</Text>}
         />
       </View>
     );
@@ -56,10 +56,26 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial',
     fontWeight: '900',
     fontSize: 20,
-    paddingTop: 20,
+    marginTop: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderColor: 'grey',
+    borderWidth: 1,
     backgroundColor: 'white',
     alignSelf: 'stretch',
     textAlign: 'center',
+  },
+  list: {
+    alignSelf: 'stretch',
+  },
+  row: {
+    height: 70,
+    fontSize: 16,
+    borderColor: 'grey',
+    borderWidth: 1,
+    alignSelf: 'stretch',
+    paddingTop: 10,
+    paddingLeft: 10,
   },
 });
 
