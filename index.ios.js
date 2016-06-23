@@ -38,7 +38,12 @@ class harmful extends Component {
         </Text>
         <ListView style={styles.list}
           dataSource={this.state.dataSource}
-          renderRow={(rowData) => <Text style={styles.row}>{rowData}</Text>}
+          renderRow={function(rowData, sectionId, rowId) {
+            if (Number(rowId) % 2) {
+              return <Text style={styles.evenRow}>{rowData}</Text>
+            }
+            return <Text style={styles.row}>{rowData}</Text>
+          }}
         />
       </View>
     );
@@ -76,6 +81,16 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     paddingTop: 10,
     paddingLeft: 10,
+  },
+  evenRow: {
+    height: 70,
+    fontSize: 16,
+    borderColor: 'grey',
+    borderWidth: 1,
+    alignSelf: 'stretch',
+    paddingTop: 10,
+    paddingLeft: 10,
+    backgroundColor: '#F8F8F8',
   },
 });
 
