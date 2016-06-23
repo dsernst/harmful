@@ -31,6 +31,7 @@ class harmful extends Component {
     this.state = {
       dataSource: ds.cloneWithRows(this._data),
       newItemTitle: '',
+      newItemDescription: '',
       isNewItemVisible: false,
     };
   }
@@ -64,13 +65,29 @@ class harmful extends Component {
               onChangeText={(newItemTitle) => this.setState({newItemTitle})}
               value={this.state.newItemTitle}
               autoFocus
-              placeholder={'New item...'}
+              placeholder='New item...'
+              onSubmitEditing={() => this.refs.NewItemDescription.focus()}
+            />
+            <TextInput
+              ref="NewItemDescription"
+              style={styles.newItemDescription}
+              onChangeText={(newItemDescription) => this.setState({newItemDescription})}
+              value={this.state.newItemDescription}
+              placeholder='Description...'
+              multiline
               onSubmitEditing={() => {
-                if (this.state.newItemTitle !== '') {
-                  this._onDataArrived(this.state.newItemTitle)
+                // if (this.state.newItemTitle !== '') {
+                //   this._onDataArrived(this.state.newItemTitle)
+                // }
+                // this.setState({
+                //   newItemTitle: '',
+                //   isNewItemVisible: false,
+                // })
+                if (this.state.newItemDescription !== '') {
+                  this._onDataArrived(this.state.newItemDescription)
                 }
                 this.setState({
-                  newItemTitle: '',
+                  newItemDescription: '',
                   isNewItemVisible: false,
                 })
               }}
@@ -126,7 +143,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   newItem: {
-    height: 70,
+    height: 150,
     borderColor: 'grey',
     borderWidth: 1,
     alignSelf: 'stretch',
@@ -137,6 +154,11 @@ const styles = StyleSheet.create({
   newItemTitle: {
     fontSize: 16,
     height: 40,
+    borderWidth: 0,
+  },
+  newItemDescription: {
+    fontSize: 14,
+    height: 80,
     borderWidth: 0,
   },
   list: {
