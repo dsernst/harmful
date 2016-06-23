@@ -31,6 +31,7 @@ class harmful extends Component {
     this.state = {
       dataSource: ds.cloneWithRows(this._data),
       newItemTitle: '',
+      isNewItemVisible: false,
     };
   }
 
@@ -43,6 +44,7 @@ class harmful extends Component {
 
   pressComposeButton() {
     // make new item screen visible
+    this.setState({isNewItemVisible: true})
   }
 
   render() {
@@ -55,19 +57,26 @@ class harmful extends Component {
             <Text style={styles.toolbarButton}>+</Text>
           </TouchableHighlight>
         </View>
-        <View style={styles.newItem}>
-          <TextInput
-            style={styles.newItemTitle}
-            onChangeText={(newItemTitle) => this.setState({newItemTitle})}
-            value={this.state.newItemTitle}
-            autoFocus
-            placeholder={'New item...'}
-            onSubmitEditing={() => {
-              this._onDataArrived(this.state.newItemTitle)
-              this.setState({newItemTitle: ''})
-            }}
-          />
-        </View>
+        { this.state.isNewItemVisible ?
+          <View style={styles.newItem}>
+            <TextInput
+              style={styles.newItemTitle}
+              onChangeText={(newItemTitle) => this.setState({newItemTitle})}
+              value={this.state.newItemTitle}
+              autoFocus
+              placeholder={'New item...'}
+              onSubmitEditing={() => {
+                if (this.state.newItemTitle !== '') {
+                  this._onDataArrived(this.state.newItemTitle)
+                }
+                this.setState({
+                  newItemTitle: '',
+                  isNewItemVisible: false,
+                })
+              }}
+            />
+          </View>
+        : null }
         <ListView style={styles.list}
           dataSource={this.state.dataSource}
           renderRow={function(rowData, sectionId, rowId) {
