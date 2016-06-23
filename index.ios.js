@@ -10,6 +10,7 @@ import {
   ListView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableHighlight,
   View
 } from 'react-native';
@@ -29,6 +30,7 @@ class harmful extends Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource: ds.cloneWithRows(this._data),
+      newItemTitle: '',
     };
   }
 
@@ -40,7 +42,7 @@ class harmful extends Component {
   }
 
   pressComposeButton() {
-    this._onDataArrived('foobar')
+    // make new item screen visible
   }
 
   render() {
@@ -52,6 +54,19 @@ class harmful extends Component {
           <TouchableHighlight onPress={() => this.pressComposeButton()}>
             <Text style={styles.toolbarButton}>+</Text>
           </TouchableHighlight>
+        </View>
+        <View style={styles.newItem}>
+          <TextInput
+            style={styles.newItemTitle}
+            onChangeText={(newItemTitle) => this.setState({newItemTitle})}
+            value={this.state.newItemTitle}
+            autoFocus
+            placeholder={'New item...'}
+            onSubmitEditing={() => {
+              this._onDataArrived(this.state.newItemTitle)
+              this.setState({newItemTitle: ''})
+            }}
+          />
         </View>
         <ListView style={styles.list}
           dataSource={this.state.dataSource}
@@ -100,6 +115,20 @@ const styles = StyleSheet.create({
     color: '#4A90E2',
     width: 50,
     textAlign: 'center',
+  },
+  newItem: {
+    height: 70,
+    borderColor: 'grey',
+    borderWidth: 1,
+    alignSelf: 'stretch',
+    paddingTop: 10,
+    paddingLeft: 10,
+    backgroundColor: '#F8F8F8',
+  },
+  newItemTitle: {
+    fontSize: 16,
+    height: 40,
+    borderWidth: 0,
   },
   list: {
     alignSelf: 'stretch',
