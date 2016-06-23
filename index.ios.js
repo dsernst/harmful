@@ -53,7 +53,7 @@ class harmful extends Component {
         <View style={styles.toolbar}>
           <Text style={styles.toolbarButton}></Text>
           <Text style={styles.title}>HARMFUL</Text>
-          <TouchableHighlight onPress={() => this.pressComposeButton()}>
+          <TouchableHighlight underlayColor='white' onPress={() => this.pressComposeButton()}>
             <Text style={styles.toolbarButton}>+</Text>
           </TouchableHighlight>
         </View>
