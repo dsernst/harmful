@@ -13,11 +13,9 @@ class harmful extends Component {
 
   constructor(props) {
     super(props)
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => (
-      ['title', 'description', 'people'].some(key => r1[key] !== r2[key])
-    )})
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => true})
     this.state = {
-      selectedIndex: 1,
+      selectedIndex: '1',
       selectedDescHeight: 256,
       _data: [
         {
@@ -62,20 +60,6 @@ class harmful extends Component {
     this.state.dataSource = ds.cloneWithRows(this.state._data)
   }
 
-  updateData(key, newValue) {
-    // Update the underlying datastore and remake the list's immutable datasource
-    let newData = this.state._data.slice()
-    newData[this.state.selectedIndex] = {
-      ...newData[this.state.selectedIndex],
-      [key]: newValue,
-    }
-
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(newData),
-      _data: newData,
-    })
-  }
-
   pressComposeButton() {
     // create new blank item and select it
     let newData = [{title: '', description: '', people: []}].concat(this.state._data)
@@ -83,8 +67,24 @@ class harmful extends Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(newData),
       _data: newData,
-      selectedIndex: 0,
+      selectedIndex: '0',
       selectedDescHeight: 100,
+    })
+  }
+
+  updateData(key, newValue, index = this.state.selectedIndex) {
+    console.log('updateData @ index=', index)
+
+    // Update the underlying datastore and remake the list's immutable datasource
+    let newData = this.state._data.slice()
+    newData[index] = {
+      ...newData[index],
+      [key]: newValue,
+    }
+
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(newData),
+      _data: newData,
     })
   }
 
@@ -105,9 +105,16 @@ class harmful extends Component {
             if (Number(rowId) % 2) {
               rowStyle.push({backgroundColor: '#F8F8F8'})
             }
-            if (this.state.selectedIndex !== Number(rowId)) {
+            if (this.state.selectedIndex !== rowId) {
               // Render an unselected list item
-              return <Text style={rowStyle}>{rowData.title}</Text>
+              return (
+                <TouchableHighlight onPress={() => this.setState({
+                  selectedIndex: rowId,
+                  dataSource: this.state.dataSource.cloneWithRows(this.state._data),
+                })} >
+                  <Text style={rowStyle}>{rowData.title}</Text>
+                </TouchableHighlight>
+              )
             }
 
             // Render the selected list item
