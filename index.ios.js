@@ -125,10 +125,10 @@ class harmful extends Component {
                   value={this.state._data[this.state.selectedIndex].title}
                   autoFocus
                   placeholder='New item...'
-                  onSubmitEditing={() => this.refs.SelectedItemDescription.focus()}
+                  onSubmitEditing={() => this.selectedDescription.focus()}
                 />
                 <TextInput
-                  ref="SelectedItemDescription"
+                  ref={(element) => this.selectedDescription = element}
                   style={styles.selectedDescription}
                   onChangeText={(newText) => {this.updateData('description', newText)} }
                   value={this.state._data[this.state.selectedIndex].description}
