@@ -19,7 +19,7 @@ class harmful extends Component {
       _data: [
         {
           title: 'Great Pacific Garbage Patch',
-          description: 'fooooobarrrr',
+          description: '',
           people: [],
         },
         {
@@ -36,22 +36,22 @@ class harmful extends Component {
         },
         {
           title: 'Rising Income Inequality',
-          description: 'fooooobarrrr',
+          description: '',
           people: [],
         },
         {
           title: 'Women\'s Leadership Gap',
-          description: 'fooooobarrrr',
+          description: '',
           people: [],
         },
         {
           title: 'Hard to Understand New Laws',
-          description: 'fooooobarrrr',
+          description: '',
           people: [],
         },
         {
           title: 'Broken Healthcare System',
-          description: 'fooooobarrrr',
+          description: '',
           people: [],
         },
       ]
@@ -194,8 +194,7 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderWidth: 1,
     alignSelf: 'stretch',
-    paddingTop: 10,
-    paddingLeft: 10,
+    paddingLeft: 9,
   },
   selectedTitle: {
     fontSize: 16,
