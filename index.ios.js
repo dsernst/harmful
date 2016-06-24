@@ -16,7 +16,6 @@ class harmful extends Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => true})
     this.state = {
       selectedIndex: '1',
-      selectedDescHeight: 256,
       _data: [
         {
           title: 'Great Pacific Garbage Patch',
@@ -68,12 +67,11 @@ class harmful extends Component {
       dataSource: this.state.dataSource.cloneWithRows(newData),
       _data: newData,
       selectedIndex: '0',
-      selectedDescHeight: 100,
     })
   }
 
-  updateData(key, newValue, index = this.state.selectedIndex) {
-    console.log('updateData @ index=', index)
+  updateData(key, newValue) {
+    if (typeof index === 'undefined') index = this.state.selectedIndex
 
     // Update the underlying datastore and remake the list's immutable datasource
     let newData = this.state._data.slice()
@@ -131,10 +129,7 @@ class harmful extends Component {
                 />
                 <TextInput
                   ref="SelectedItemDescription"
-                  style={[styles.selectedDescription, {height: this.state.selectedDescHeight}]}
-                  onChange={(event) => {
-                    this.setState({selectedDescHeight: event.nativeEvent.contentSize.height})
-                  }}
+                  style={styles.selectedDescription}
                   onChangeText={(newText) => {this.updateData('description', newText)} }
                   value={this.state._data[this.state.selectedIndex].description}
                   placeholder='Description...'
@@ -209,7 +204,7 @@ const styles = StyleSheet.create({
   },
   selectedDescription: {
     fontSize: 14,
-    height: 200,
+    height: 256,
     borderWidth: 0,
   },
 })
