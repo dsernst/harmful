@@ -54,6 +54,21 @@ class harmful extends Component {
           description: '',
           people: [],
         },
+        {
+          title: 'Rising levels of Mass Shootings',
+          description: '',
+          people: [],
+        },
+        {
+          title: 'Anti-scientific Attitudes from Leaders',
+          description: '',
+          people: [],
+        },
+        {
+          title: 'Huge levels distrust in the political system',
+          description: '',
+          people: [],
+        },
       ]
     }
     this.state.dataSource = ds.cloneWithRows(this.state._data)
