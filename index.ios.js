@@ -20,19 +20,50 @@ class harmful extends Component {
   constructor(props) {
     super(props);
     this._data = [
-      'Great Pacific Garbage Patch',
-      'Duopoly on Political Power',
-      'Rising Income Inequality',
-      'Women\'s Leadership Gap',
-      'Hard to Understand New Laws',
-      'Broken Healthcare System',
+      {
+        title: 'Great Pacific Garbage Patch',
+        description: 'fooooobarrrr',
+        people: [],
+      },
+      {
+        title: 'Duopoly on Political Power',
+        description:
+`Only two candidates with a chance of winning. Never effective to run an independent candidate.They're almost always very similar ideologically. Both business candidates.
+
+Founding father's warnings against a two-party system: http://www.washingtonsblog.com/2011/07/the-founding-fathers-tried-to-warn-us-about-the-threat-from-a-two-party-system.html
+
+Helpful statements from Noam Chomsky on the subject: https://www.youtube.com/watch?v=QOudyiO238
+`
+        ,
+        people: [],
+      },
+      {
+        title: 'Rising Income Inequality',
+        description: 'fooooobarrrr',
+        people: [],
+      },
+      {
+        title: 'Women\'s Leadership Gap',
+        description: 'fooooobarrrr',
+        people: [],
+      },
+      {
+        title: 'Hard to Understand New Laws',
+        description: 'fooooobarrrr',
+        people: [],
+      },
+      {
+        title: 'Broken Healthcare System',
+        description: 'fooooobarrrr',
+        people: [],
+      },
     ]
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource: ds.cloneWithRows(this._data),
-      newItemTitle: '',
-      newItemDescription: '',
-      isNewItemVisible: false,
+      selectedTitle: this._data[1].title,
+      selectedDescription: 'testvalue', // this._data[1].description,
+      selectedIndex: 1,
     };
   }
 
@@ -44,8 +75,7 @@ class harmful extends Component {
   }
 
   pressComposeButton() {
-    // make new item screen visible
-    this.setState({isNewItemVisible: true})
+    // create new blank item and select it
   }
 
   render() {
@@ -58,49 +88,48 @@ class harmful extends Component {
             <Text style={styles.toolbarButton}>+</Text>
           </TouchableHighlight>
         </View>
-        { this.state.isNewItemVisible ?
-          <View style={styles.newItem}>
-            <TextInput
-              style={styles.newItemTitle}
-              onChangeText={(newItemTitle) => this.setState({newItemTitle})}
-              value={this.state.newItemTitle}
-              autoFocus
-              placeholder='New item...'
-              onSubmitEditing={() => this.refs.NewItemDescription.focus()}
-            />
-            <TextInput
-              ref="NewItemDescription"
-              style={styles.newItemDescription}
-              onChangeText={(newItemDescription) => this.setState({newItemDescription})}
-              value={this.state.newItemDescription}
-              placeholder='Description...'
-              multiline
-              onSubmitEditing={() => {
-                // if (this.state.newItemTitle !== '') {
-                //   this._onDataArrived(this.state.newItemTitle)
-                // }
-                // this.setState({
-                //   newItemTitle: '',
-                //   isNewItemVisible: false,
-                // })
-                if (this.state.newItemDescription !== '') {
-                  this._onDataArrived(this.state.newItemDescription)
-                }
-                this.setState({
-                  newItemDescription: '',
-                  isNewItemVisible: false,
-                })
-              }}
-            />
-          </View>
-        : null }
         <ListView style={styles.list}
           dataSource={this.state.dataSource}
-          renderRow={function(rowData, sectionId, rowId) {
+          renderRow={(rowData, sectionId, rowId) => {
+            var rowStyle = [styles.unselectedRow]
             if (Number(rowId) % 2) {
-              return <Text style={styles.evenRow}>{rowData}</Text>
+              rowStyle.push({backgroundColor: '#F8F8F8'})
             }
-            return <Text style={styles.row}>{rowData}</Text>
+            if (Number(rowId) === this.state.selectedIndex) {
+              rowStyle[0] = styles.selectedRow
+              return (
+                <View style={rowStyle}>
+                  <TextInput
+                    style={styles.selectedTitle}
+                    onChangeText={(selectedTitle) => this.setState({selectedTitle})}
+                    value={this.state.selectedTitle}
+                    autoFocus
+                    placeholder='New item...'
+                    onSubmitEditing={() => this.refs.SelectedItemDescription.focus()}
+                  />
+                  <TextInput
+                    ref="SelectedItemDescription"
+                    style={styles.selectedDescription}
+                    onChange={function(event) {
+                      console.log('description height:', event.nativeEvent.contentSize.height)
+                    }}
+                    onChangeText={(selectedDescription) => {
+                      console.log('this.state.selectedDescription:', this.state.selectedDescription)
+                      console.log('arg to onChangeText:', selectedDescription)
+                      this.setState({selectedDescription})}}
+                    value={this.state.selectedDescription}
+                    placeholder='Description...'
+                    multiline
+                    onSubmitEditing={() => {
+                      if (this.state.selectedDescription !== '') {
+                        this._onDataArrived(this.state.newItemDescription)
+                      }
+                    }}
+                  />
+                </View>
+              )
+            }
+            return <Text style={rowStyle}>{rowData.title}</Text>
           }}
         />
       </View>
@@ -142,46 +171,34 @@ const styles = StyleSheet.create({
     width: 50,
     textAlign: 'center',
   },
-  newItem: {
-    height: 150,
+  list: {
+    alignSelf: 'stretch',
+  },
+  unselectedRow: {
+    height: 70,
+    fontSize: 16,
     borderColor: 'grey',
     borderWidth: 1,
     alignSelf: 'stretch',
     paddingTop: 10,
     paddingLeft: 10,
-    backgroundColor: '#F8F8F8',
   },
-  newItemTitle: {
+  selectedRow: {
+    borderColor: 'grey',
+    borderWidth: 1,
+    alignSelf: 'stretch',
+    paddingTop: 10,
+    paddingLeft: 10,
+  },
+  selectedTitle: {
     fontSize: 16,
     height: 40,
     borderWidth: 0,
   },
-  newItemDescription: {
+  selectedDescription: {
     fontSize: 14,
-    height: 80,
+    height: 200,
     borderWidth: 0,
-  },
-  list: {
-    alignSelf: 'stretch',
-  },
-  row: {
-    height: 70,
-    fontSize: 16,
-    borderColor: 'grey',
-    borderWidth: 1,
-    alignSelf: 'stretch',
-    paddingTop: 10,
-    paddingLeft: 10,
-  },
-  evenRow: {
-    height: 70,
-    fontSize: 16,
-    borderColor: 'grey',
-    borderWidth: 1,
-    alignSelf: 'stretch',
-    paddingTop: 10,
-    paddingLeft: 10,
-    backgroundColor: '#F8F8F8',
   },
 });
 
