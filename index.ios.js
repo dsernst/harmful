@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   ListView,
@@ -7,12 +7,12 @@ import {
   TextInput,
   TouchableHighlight,
   View
-} from 'react-native';
+} from 'react-native'
 
 class harmful extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => (
       ['title', 'description', 'people'].some(key => r1[key] !== r2[key])
     )})
@@ -138,7 +138,7 @@ class harmful extends Component {
           }}
         />
       </View>
-    );
+    )
   }
 }
 
@@ -205,6 +205,6 @@ const styles = StyleSheet.create({
     height: 200,
     borderWidth: 0,
   },
-});
+})
 
-AppRegistry.registerComponent('harmful', () => harmful);
+AppRegistry.registerComponent('harmful', () => harmful)
