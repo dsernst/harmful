@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -19,63 +13,79 @@ class harmful extends Component {
 
   constructor(props) {
     super(props);
-    this._data = [
-      {
-        title: 'Great Pacific Garbage Patch',
-        description: 'fooooobarrrr',
-        people: [],
-      },
-      {
-        title: 'Duopoly on Political Power',
-        description:
-`Only two candidates with a chance of winning. Never effective to run an independent candidate.They're almost always very similar ideologically. Both business candidates.
-
-Founding father's warnings against a two-party system: http://www.washingtonsblog.com/2011/07/the-founding-fathers-tried-to-warn-us-about-the-threat-from-a-two-party-system.html
-
-Helpful statements from Noam Chomsky on the subject: https://www.youtube.com/watch?v=QOudyiO238
-`
-        ,
-        people: [],
-      },
-      {
-        title: 'Rising Income Inequality',
-        description: 'fooooobarrrr',
-        people: [],
-      },
-      {
-        title: 'Women\'s Leadership Gap',
-        description: 'fooooobarrrr',
-        people: [],
-      },
-      {
-        title: 'Hard to Understand New Laws',
-        description: 'fooooobarrrr',
-        people: [],
-      },
-      {
-        title: 'Broken Healthcare System',
-        description: 'fooooobarrrr',
-        people: [],
-      },
-    ]
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => (
+      ['title', 'description', 'people'].some(key => r1[key] !== r2[key])
+    )})
     this.state = {
-      dataSource: ds.cloneWithRows(this._data),
-      selectedTitle: this._data[1].title,
-      selectedDescription: 'testvalue', // this._data[1].description,
       selectedIndex: 1,
-    };
+      selectedDescHeight: 256,
+      _data: [
+        {
+          title: 'Great Pacific Garbage Patch',
+          description: 'fooooobarrrr',
+          people: [],
+        },
+        {
+          title: 'Duopoly on Political Power',
+          description:
+  `Only two candidates with a chance of winning. Never effective to run an independent candidate.They're almost always very similar ideologically. Both business candidates.
+
+  Founding father's warnings against a two-party system: http://www.washingtonsblog.com/2011/07/the-founding-fathers-tried-to-warn-us-about-the-threat-from-a-two-party-system.html
+
+  Helpful statements from Noam Chomsky on the subject: https://www.youtube.com/watch?v=QOudyiO238
+  `
+          ,
+          people: [],
+        },
+        {
+          title: 'Rising Income Inequality',
+          description: 'fooooobarrrr',
+          people: [],
+        },
+        {
+          title: 'Women\'s Leadership Gap',
+          description: 'fooooobarrrr',
+          people: [],
+        },
+        {
+          title: 'Hard to Understand New Laws',
+          description: 'fooooobarrrr',
+          people: [],
+        },
+        {
+          title: 'Broken Healthcare System',
+          description: 'fooooobarrrr',
+          people: [],
+        },
+      ]
+    }
+    this.state.dataSource = ds.cloneWithRows(this.state._data)
   }
 
-  _onDataArrived(newData) {
-    this._data = [newData].concat(this._data)
+  updateData(key, newValue) {
+    // Update the underlying datastore and remake the list's immutable datasource
+    let newData = this.state._data.slice()
+    newData[this.state.selectedIndex] = {
+      ...newData[this.state.selectedIndex],
+      [key]: newValue,
+    }
+
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this._data)
+      dataSource: this.state.dataSource.cloneWithRows(newData),
+      _data: newData,
     })
   }
 
   pressComposeButton() {
     // create new blank item and select it
+    let newData = [{title: '', description: '', people: []}].concat(this.state._data)
+
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(newData),
+      _data: newData,
+      selectedIndex: 0,
+      selectedDescHeight: 100,
+    })
   }
 
   render() {
@@ -95,41 +105,36 @@ Helpful statements from Noam Chomsky on the subject: https://www.youtube.com/wat
             if (Number(rowId) % 2) {
               rowStyle.push({backgroundColor: '#F8F8F8'})
             }
-            if (Number(rowId) === this.state.selectedIndex) {
-              rowStyle[0] = styles.selectedRow
-              return (
-                <View style={rowStyle}>
-                  <TextInput
-                    style={styles.selectedTitle}
-                    onChangeText={(selectedTitle) => this.setState({selectedTitle})}
-                    value={this.state.selectedTitle}
-                    autoFocus
-                    placeholder='New item...'
-                    onSubmitEditing={() => this.refs.SelectedItemDescription.focus()}
-                  />
-                  <TextInput
-                    ref="SelectedItemDescription"
-                    style={styles.selectedDescription}
-                    onChange={function(event) {
-                      console.log('description height:', event.nativeEvent.contentSize.height)
-                    }}
-                    onChangeText={(selectedDescription) => {
-                      console.log('this.state.selectedDescription:', this.state.selectedDescription)
-                      console.log('arg to onChangeText:', selectedDescription)
-                      this.setState({selectedDescription})}}
-                    value={this.state.selectedDescription}
-                    placeholder='Description...'
-                    multiline
-                    onSubmitEditing={() => {
-                      if (this.state.selectedDescription !== '') {
-                        this._onDataArrived(this.state.newItemDescription)
-                      }
-                    }}
-                  />
-                </View>
-              )
+            if (this.state.selectedIndex !== Number(rowId)) {
+              // Render an unselected list item
+              return <Text style={rowStyle}>{rowData.title}</Text>
             }
-            return <Text style={rowStyle}>{rowData.title}</Text>
+
+            // Render the selected list item
+            rowStyle[0] = styles.selectedRow
+            return (
+              <View style={rowStyle}>
+                <TextInput
+                  style={styles.selectedTitle}
+                  onChangeText={(newText) => {this.updateData('title', newText)} }
+                  value={this.state._data[this.state.selectedIndex].title}
+                  autoFocus
+                  placeholder='New item...'
+                  onSubmitEditing={() => this.refs.SelectedItemDescription.focus()}
+                />
+                <TextInput
+                  ref="SelectedItemDescription"
+                  style={[styles.selectedDescription, {height: this.state.selectedDescHeight}]}
+                  onChange={(event) => {
+                    this.setState({selectedDescHeight: event.nativeEvent.contentSize.height})
+                  }}
+                  onChangeText={(newText) => {this.updateData('description', newText)} }
+                  value={this.state._data[this.state.selectedIndex].description}
+                  placeholder='Description...'
+                  multiline
+                />
+              </View>
+            )
           }}
         />
       </View>
