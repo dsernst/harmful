@@ -157,6 +157,11 @@ class harmful extends Component {
                   placeholder='Description...'
                   multiline
                 />
+              <View style={styles.selectedPeopleContainer}>
+                  {rowData.people.map((name) => (
+                    <Text style={styles.selectedPerson} key={name}>{name}</Text>
+                  ))}
+                </View>
               </View>
             )
           }}
@@ -241,6 +246,20 @@ const styles = StyleSheet.create({
     height: 256,
     borderWidth: 0,
   },
+  selectedPeopleContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-end',
+    marginBottom: 10,
+  },
+  selectedPerson: {
+    fontSize: 11,
+    backgroundColor: '#D3E8FF',
+    marginRight: 10,
+    marginBottom: 5,
+    borderRadius: 5,
+    paddingHorizontal: 5,
+  }
 })
 
 AppRegistry.registerComponent('harmful', () => harmful)
