@@ -20,7 +20,7 @@ class harmful extends Component {
         {
           title: 'Great Pacific Garbage Patch',
           description: '',
-          people: [],
+          people: ['1', '2', '3'],
         },
         {
           title: 'Duopoly on Political Power',
@@ -32,17 +32,17 @@ class harmful extends Component {
   Helpful statements from Noam Chomsky on the subject: https://www.youtube.com/watch?v=QOudyiO238
   `
           ,
-          people: [],
+          people: ['Daniel Clough', 'Tom Bralower', 'Sean Sackett-Ferguson'],
         },
         {
           title: 'Rising Income Inequality',
           description: '',
-          people: [],
+          people: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42'],
         },
         {
           title: 'Women\'s Leadership Gap',
           description: '',
-          people: [],
+          people: ['1', '2', '3', '4', '5', '6', '7', '8'],
         },
         {
           title: 'Hard to Understand New Laws',
