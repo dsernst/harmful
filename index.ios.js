@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {
   AppRegistry,
+  Image,
   ListView,
   StyleSheet,
   Text,
@@ -125,7 +126,13 @@ class harmful extends Component {
                   selectedIndex: rowId,
                   dataSource: this.state.dataSource.cloneWithRows(this.state._data),
                 })} >
-                  <Text style={rowStyle}>{rowData.title}</Text>
+                  <View style={rowStyle}>
+                    <Text stlye={styles.unselectedRowTitle}>{rowData.title}</Text>
+                    <Text style={styles.numPeople}>
+                      {rowData.people.length}
+                      <Image style={styles.peopleIcon} source={require('./people-icon.png')} />
+                    </Text>
+                  </View>
                 </TouchableHighlight>
               )
             }
@@ -198,12 +205,25 @@ const styles = StyleSheet.create({
   },
   unselectedRow: {
     height: 70,
-    fontSize: 16,
     borderColor: 'grey',
     borderWidth: 1,
     alignSelf: 'stretch',
     paddingTop: 10,
     paddingLeft: 10,
+  },
+  unselectedRowTitle: {
+    fontSize: 16,
+  },
+  numPeople: {
+    paddingTop: 18,
+    paddingRight: 5,
+    textAlign: 'right',
+    opacity: .8,
+    fontSize: 15,
+    marginRight: 10,
+  },
+  peopleIcon: {
+    marginTop: 21,
   },
   selectedRow: {
     borderColor: 'grey',
