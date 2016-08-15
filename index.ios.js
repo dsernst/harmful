@@ -107,7 +107,7 @@ Helpful statements from Noam Chomsky on the subject: https://www.youtube.com/wat
       <View style={styles.container}>
         <View style={styles.toolbar}>
           <Text style={styles.toolbarButton}></Text>
-          <Text style={styles.title}>HARMFUL</Text>
+          <Text style={styles.title}>UTOPIA</Text>
           <TouchableHighlight underlayColor='white' onPress={() => this.pressComposeButton()}>
             <Text style={styles.toolbarButton}>+</Text>
           </TouchableHighlight>
