@@ -352,7 +352,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0610;
-				ORGANIZATIONNAME = Facebook;
+				ORGANIZATIONNAME = UtopiaOrg;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -616,7 +616,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.dsernst.harmful;
+				PRODUCT_BUNDLE_IDENTIFIER = org.dsernst.utopia;
 				PRODUCT_NAME = Utopia;
 			};
 			name = Debug;
@@ -636,7 +636,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.dsernst.harmful;
+				PRODUCT_BUNDLE_IDENTIFIER = org.dsernst.utopia;
 				PRODUCT_NAME = Utopia;
 			};
 			name = Release;
