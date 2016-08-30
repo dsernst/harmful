@@ -1,11 +1,15 @@
 # utopia
 
-A React Native app to track and share group problems.
+![app icon](./app-icon.jpg)
 
+### A mobile app to organize group problems.
 
-### TODO:
+1. Describe issues you care about.
+2. Invite friends who also care, after you talk about it with them.
 
 <img src="/mockup.png" width="456px" alt="mockup" />
+
+## TODO:
 
 - [x] List of all items
 
