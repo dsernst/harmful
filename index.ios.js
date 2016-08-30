@@ -3,13 +3,12 @@ import {
   AppRegistry,
   ListView,
   StyleSheet,
-  Text,
-  TextInput,
-  View
+  View,
 } from 'react-native'
 
 import Headerbar from './components/headerbar'
 import InactiveListItem from './components/inactive-list-item.js'
+import ActiveListItem from './components/active-list-item.js'
 import exampleData from './example-data.js'
 
 class harmful extends Component {
@@ -58,10 +57,11 @@ class harmful extends Component {
         <ListView style={styles.list}
           dataSource={this.state.dataSource}
           renderRow={(rowData, sectionId, rowId) => {
-            var rowStyle = []
             if (this.state.selectedIndex !== rowId) {
               // Render an unselected list item
-              return <InactiveListItem title={rowData.title} people={rowData.people}
+              return <InactiveListItem
+                title={rowData.title}
+                people={rowData.people}
                 selectRow={() => this.setState({
                   selectedIndex: rowId,
                   dataSource: this.state.dataSource.cloneWithRows(this.state._data),
@@ -70,31 +70,16 @@ class harmful extends Component {
             }
 
             // Render the selected list item
-            rowStyle[0] = styles.selectedRow
             return (
-              <View style={rowStyle}>
-                <TextInput
-                  style={styles.selectedTitle}
-                  onChangeText={(newText) => {this.updateData('title', newText)} }
-                  value={this.state._data[this.state.selectedIndex].title}
-                  autoFocus
-                  placeholder='New item...'
-                  onSubmitEditing={() => this.selectedDescription.focus()}
-                />
-                <TextInput
-                  ref={(element) => this.selectedDescription = element}
-                  style={styles.selectedDescription}
-                  onChangeText={(newText) => {this.updateData('description', newText)} }
-                  value={this.state._data[this.state.selectedIndex].description}
-                  placeholder='Description...'
-                  multiline
-                />
-              <View style={styles.selectedPeopleContainer}>
-                  {rowData.people.map((name) => (
-                    <Text style={styles.selectedPerson} key={name}>{name}</Text>
-                  ))}
-                </View>
-              </View>
+              <ActiveListItem
+                _data={this.state._data}
+                selectedIndex={this.state.selectedIndex}
+                people={rowData.people}
+                editTitle={newText => this.updateData('title', newText)}
+                onSubmitTitle={() => this.selectedDescription.focus()}
+                setDescriptionRef={element => this.selectedDescription = element}
+                editDescription={newText => this.updateData('description', newText)}
+              />
             )
           }}
         />
@@ -113,36 +98,6 @@ const styles = StyleSheet.create({
   list: {
     alignSelf: 'stretch',
   },
-  selectedRow: {
-    borderColor: 'grey',
-    borderWidth: 1,
-    alignSelf: 'stretch',
-    paddingLeft: 9,
-  },
-  selectedTitle: {
-    fontSize: 16,
-    height: 40,
-    borderWidth: 0,
-  },
-  selectedDescription: {
-    fontSize: 14,
-    height: 256,
-    borderWidth: 0,
-  },
-  selectedPeopleContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-end',
-    marginBottom: 10,
-  },
-  selectedPerson: {
-    fontSize: 11,
-    backgroundColor: '#D3E8FF',
-    marginRight: 10,
-    marginBottom: 5,
-    borderRadius: 5,
-    paddingHorizontal: 5,
-  }
 })
 
 AppRegistry.registerComponent('harmful', () => harmful)
