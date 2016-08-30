@@ -9,44 +9,65 @@ import {
 import Headerbar from './components/headerbar'
 import InactiveListItem from './components/inactive-list-item.js'
 import ActiveListItem from './components/active-list-item.js'
-import exampleData from './example-data.js'
+import * as firebase from 'firebase'
+const firebaseApp = firebase.initializeApp({
+  apiKey: "AIzaSyCTOUQrFxR3icY0tyXCsXONRfWTop8KqzY",
+  authDomain: "utopia-53608.firebaseapp.com",
+  databaseURL: "https://utopia-53608.firebaseio.com",
+  storageBucket: "utopia-53608.appspot.com",
+})
 
-class harmful extends Component {
-
+class utopiaApp extends Component {
   constructor(props) {
     super(props)
+    this.itemsSortedRef = firebaseApp.database().ref('issues/').orderByChild('lastUpdated')
+    this.itemsRef = firebaseApp.database().ref('issues/')
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => true})
     this.state = {
-      selectedIndex: '1',
-      _data: exampleData,
+      selectedIndex: '0',
     }
-    this.state.dataSource = ds.cloneWithRows(this.state._data)
+    this.state.dataSource = ds.cloneWithRows([])
+  }
+
+  listenForItems(itemsSortedRef) {
+    itemsSortedRef.on('value', (snap) => {
+
+      // get children as an array
+      var items = []
+      snap.forEach(child => {
+        items.push({
+          title: child.val().title,
+          people: child.val().people || [],
+          description: child.val().description || '',
+          lastUpdated: child.val().lastUpdated || new Date(0),
+          _key: child.key
+        })
+      })
+
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(items.reverse())
+      })
+
+    })
+  }
+
+  componentDidMount() {
+    this.listenForItems(this.itemsSortedRef)
   }
 
   pressComposeButton() {
     // create new blank item and select it
-    let newData = [{title: '', description: '', people: []}].concat(this.state._data)
+    this.itemsRef.push({title: '', description: '', people: [], lastUpdated: new Date()})
 
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(newData),
-      _data: newData,
       selectedIndex: '0',
     })
   }
 
-  updateData(key, newValue) {
-    if (typeof index === 'undefined') index = this.state.selectedIndex
-
-    // Update the underlying datastore and remake the list's immutable datasource
-    let newData = this.state._data.slice()
-    newData[index] = {
-      ...newData[index],
-      [key]: newValue,
-    }
-
+  updateData(childKey, update) {
+    this.itemsRef.child(childKey).update({...update, lastUpdated: new Date()})
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(newData),
-      _data: newData,
+      selectedIndex: '0',
     })
   }
 
@@ -56,24 +77,25 @@ class harmful extends Component {
         <Headerbar pressComposeButton={() => this.pressComposeButton()} />
         <ListView style={styles.list}
           dataSource={this.state.dataSource}
+          enableEmptySections
           renderRow={(rowData, sectionId, rowId) => (
             // Render an active or inactive list item
             this.state.selectedIndex === rowId
               ? <ActiveListItem
-                _data={this.state._data}
                 selectedIndex={this.state.selectedIndex}
+                title={rowData.title}
+                description={rowData.description}
                 people={rowData.people}
-                editTitle={newText => this.updateData('title', newText)}
+                editTitle={newText => this.updateData(rowData._key, {title: newText})}
                 onSubmitTitle={() => this.selectedDescription.focus()}
                 setDescriptionRef={element => this.selectedDescription = element}
-                editDescription={newText => this.updateData('description', newText)}
+                editDescription={newText => this.updateData(rowData._key, {description: newText})}
               />
               : <InactiveListItem
                 title={rowData.title}
                 people={rowData.people}
                 selectRow={() => this.setState({
                   selectedIndex: rowId,
-                  dataSource: this.state.dataSource.cloneWithRows(this.state._data),
                 })}
               />
           )}
@@ -95,4 +117,4 @@ const styles = StyleSheet.create({
   },
 })
 
-AppRegistry.registerComponent('harmful', () => harmful)
+AppRegistry.registerComponent('harmful', () => utopiaApp)

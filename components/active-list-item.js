@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 
 function ActiveListItem({
-  _data, selectedIndex, people,
+  title, description, selectedIndex, people,
   editTitle, onSubmitTitle, setDescriptionRef, editDescription
 }) {
   return (
@@ -15,7 +15,7 @@ function ActiveListItem({
       <TextInput
         style={styles.title}
         onChangeText={editTitle}
-        value={_data[selectedIndex].title}
+        value={title}
         autoFocus
         placeholder='New item...'
         onSubmitEditing={onSubmitTitle}
@@ -24,7 +24,7 @@ function ActiveListItem({
         ref={setDescriptionRef}
         style={styles.description}
         onChangeText={editDescription}
-        value={_data[selectedIndex].description}
+        value={description}
         placeholder='Description...'
         multiline
       />
