@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import {
   AppRegistry,
-  Image,
   ListView,
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
   View
 } from 'react-native'
+
+import Headerbar from './components/headerbar'
+import InactiveListItem from './components/inactive-list-item.js'
 
 class harmful extends Component {
 
@@ -105,36 +106,19 @@ Helpful statements from Noam Chomsky on the subject: https://www.youtube.com/wat
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.toolbar}>
-          <Text style={styles.toolbarButton}></Text>
-          <Text style={styles.title}>UTOPIA</Text>
-          <TouchableHighlight underlayColor='white' onPress={() => this.pressComposeButton()}>
-            <Text style={styles.toolbarButton}>+</Text>
-          </TouchableHighlight>
-        </View>
+        <Headerbar pressComposeButton={() => this.pressComposeButton()} />
         <ListView style={styles.list}
           dataSource={this.state.dataSource}
           renderRow={(rowData, sectionId, rowId) => {
-            var rowStyle = [styles.unselectedRow]
-            if (Number(rowId) % 2) {
-              rowStyle.push({backgroundColor: '#F8F8F8'})
-            }
+            var rowStyle = []
             if (this.state.selectedIndex !== rowId) {
               // Render an unselected list item
-              return (
-                <TouchableHighlight onPress={() => this.setState({
+              return <InactiveListItem title={rowData.title} people={rowData.people}
+                selectRow={() => this.setState({
                   selectedIndex: rowId,
                   dataSource: this.state.dataSource.cloneWithRows(this.state._data),
-                })} >
-                  <View style={rowStyle}>
-                    <Text stlye={styles.unselectedRowTitle}>{rowData.title}</Text>
-                    <Text style={styles.numPeople}>
-                      {rowData.people.length}
-                      <Image style={styles.peopleIcon} source={require('./people-icon.png')} />
-                    </Text>
-                  </View>
-                </TouchableHighlight>
-              )
+                })}
+              />
             }
 
             // Render the selected list item
@@ -178,58 +162,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  toolbar: {
-    marginTop: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-    backgroundColor: '#1B1B1B',
-    borderWidth: 1,
-    borderColor: '#979797',
-  },
-  title: {
-    textAlign: 'center',
-    fontFamily: 'Arial Rounded MT Bold',
-    fontWeight: '900',
-    fontSize: 20,
-    color: '#B2B2B2',
-    flex: 1,
-  },
-  toolbarButton: {
-    fontFamily: 'Helvetica',
-    fontWeight: '100',
-    fontSize: 30,
-    lineHeight: 20,
-    paddingTop: 5,
-    color: '#4A90E2',
-    width: 50,
-    textAlign: 'center',
-  },
   list: {
     alignSelf: 'stretch',
-  },
-  unselectedRow: {
-    height: 70,
-    borderColor: 'grey',
-    borderWidth: 1,
-    alignSelf: 'stretch',
-    paddingTop: 10,
-    paddingLeft: 10,
-  },
-  unselectedRowTitle: {
-    fontSize: 16,
-  },
-  numPeople: {
-    paddingTop: 18,
-    paddingRight: 5,
-    textAlign: 'right',
-    opacity: .8,
-    fontSize: 15,
-    marginRight: 10,
-  },
-  peopleIcon: {
-    marginTop: 21,
   },
   selectedRow: {
     borderColor: 'grey',
