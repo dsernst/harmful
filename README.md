@@ -16,7 +16,7 @@
 	- [ ] add friends from contacts list
 	- [ ] remove existing friends
 	- [ ] save friends to server
-- [ ] Dark headerbar style
+- [x] Dark headerbar style
 - [ ] Replace plus-button with New Compose button
 - [ ] Fix list-item double-border
 
