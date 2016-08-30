@@ -56,22 +56,10 @@ class harmful extends Component {
         <Headerbar pressComposeButton={() => this.pressComposeButton()} />
         <ListView style={styles.list}
           dataSource={this.state.dataSource}
-          renderRow={(rowData, sectionId, rowId) => {
-            if (this.state.selectedIndex !== rowId) {
-              // Render an unselected list item
-              return <InactiveListItem
-                title={rowData.title}
-                people={rowData.people}
-                selectRow={() => this.setState({
-                  selectedIndex: rowId,
-                  dataSource: this.state.dataSource.cloneWithRows(this.state._data),
-                })}
-              />
-            }
-
-            // Render the selected list item
-            return (
-              <ActiveListItem
+          renderRow={(rowData, sectionId, rowId) => (
+            // Render an active or inactive list item
+            this.state.selectedIndex === rowId
+              ? <ActiveListItem
                 _data={this.state._data}
                 selectedIndex={this.state.selectedIndex}
                 people={rowData.people}
@@ -80,8 +68,15 @@ class harmful extends Component {
                 setDescriptionRef={element => this.selectedDescription = element}
                 editDescription={newText => this.updateData('description', newText)}
               />
-            )
-          }}
+              : <InactiveListItem
+                title={rowData.title}
+                people={rowData.people}
+                selectRow={() => this.setState({
+                  selectedIndex: rowId,
+                  dataSource: this.state.dataSource.cloneWithRows(this.state._data),
+                })}
+              />
+          )}
         />
       </View>
     )
