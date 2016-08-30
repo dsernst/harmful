@@ -5,7 +5,7 @@ A React Native app to track and share group problems.
 
 ### TODO:
 
-<img src="https://github.com/dsernst/utopia/raw/master/mockup.png" width="456px" alt="mockup" />
+<img src="/mockup.png" width="456px" alt="mockup" />
 
 - [x] List of all items
 
