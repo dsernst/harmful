@@ -40,7 +40,7 @@ function ActiveListItem({
 const styles = StyleSheet.create({
   activeListItem: {
     borderColor: 'grey',
-    borderWidth: 1,
+    borderBottomWidth: 1,
     alignSelf: 'stretch',
     paddingLeft: 9,
   },

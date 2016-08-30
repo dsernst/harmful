@@ -18,7 +18,7 @@
 	- [ ] save friends to server
 - [x] Dark headerbar style
 - [ ] Replace plus-button with New Compose button
-- [ ] Fix list-item double-border
+- [x] Fix list-item double-border
 
 ## Roadmap:
 

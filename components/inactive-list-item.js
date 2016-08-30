@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   unselectedRow: {
     height: 70,
     borderColor: 'grey',
-    borderWidth: 1,
+    borderBottomWidth: 1,
     alignSelf: 'stretch',
     paddingTop: 10,
     paddingLeft: 10,
