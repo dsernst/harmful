@@ -11,14 +11,14 @@
 
 ## TODO:
 
-- [x] List of all items
-
-- [x] Add new item
-
-- [x] View full item with title & description
-
-- [ ] Tag people from your contacts list
-  - People's names are added to item
+- [ ] Persist data to Firebase
+- [ ] Finish “Tag Friends” feature
+	- [ ] add friends from contacts list
+	- [ ] remove existing friends
+	- [ ] save friends to server
+- [ ] Dark headerbar style
+- [ ] Replace plus-button with New Compose button
+- [ ] Fix list-item double-border
 
 ## Roadmap:
 
